@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    {% include 'common/source.html' %}
+</head>
+
+<body class="layui-layout-body">
+    <div class="layui-layout layui-layout-admin">
+        <!-- 头部 -->
+        <div class="layui-header">
+            <div class="layui-logo">
+                <img src="{{ buildStaticUrl('/assets/images/GinoTsai.png') }}" />
+                <cite>&nbsp;GinoTsai </cite>
+            </div>
+            <ul class="layui-nav layui-layout-left">
+                <li class="layui-nav-item" lay-unselect>
+                    <a ew-event="flexible" title="侧边伸缩"><i class="layui-icon layui-icon-shrink-right"></i></a>
+                </li>
+                <li class="layui-nav-item" lay-unselect>
+                    <a ew-event="refresh" title="刷新"><i class="layui-icon layui-icon-refresh-3"></i></a>
+                </li>
+            </ul>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item" lay-unselect>
+                    <a>
+                        <img src="{{ buildStaticUrl('/assets/images/head.png') }}" class="layui-nav-img">
+                        <cite>{{ name }}</cite>
+                    </a>
+
+                    <dl class="layui-nav-child">
+                        <dd lay-unselect>
+                            <a ew-event="psw" data-url="/login/pwd">修改密码</a>
+                        </dd>
+                        <dd lay-unselect>
+                            <a ew-event="logout" data-url="/login/logout">退出</a>
+                        </dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 侧边栏 -->
+        <div class="layui-side">
+            <div class="layui-side-scroll">
+                <ul class="layui-nav layui-nav-tree" lay-filter="admin-side-nav" lay-accordion="true"
+                    style="margin: 15px 0;">
+                    <!--
+                <li class="layui-nav-item">
+                    <a><i class="layui-icon layui-icon-home"></i>&emsp;<cite>方案报价</cite></a>
+                    <dl class="layui-nav-child">
+                        <dd><a lay-href="plan_manager/index">方案报价-管理</a></dd>
+                        <dd><a lay-href="plan_use/index">方案报价</a></dd>
+                    </dl>
+                </li>
+
+                <li class="layui-nav-item">
+                    <a><i class="layui-icon layui-icon-home"></i>&emsp;<cite>现场记录</cite></a>
+                    <dl class="layui-nav-child">
+                        <dd><a lay-href="scene_manager/index">现场记录-管理</a></dd>
+                        <dd><a lay-href="scene_use/index">现场记录</a></dd>
+                    </dl>
+
+                </li>
+                <li class="layui-nav-item">
+                    <a><i class="layui-icon layui-icon-home"></i>&emsp;<cite>后台管理</cite></a>
+                    <dl class="layui-nav-child">
+                        <dd><a lay-href="maintain/person">人员管理</a></dd>
+                        <dd><a lay-href="maintain/car">车辆管理</a></dd>
+                    </dl>
+                </li>
+                -->
+                    {% for i in index %}
+                    <li class="layui-nav-item">
+                        <a><i class="layui-icon {{icon[i]}}"></i>&emsp;<cite>{{ i }}</cite></a>
+                        <dl class="layui-nav-child">
+                            {% for j in index[i] %}
+                            <dd><a lay-href="{{ index[i][j] }}">{{ j }}</a></dd>
+                            {% endfor %}
+                        </dl>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- 主体部分 -->
+        <div class="layui-body"></div>
+        <!-- 底部 -->
+        <div class="layui-footer">
+            copyright © 2019 GinoTsai <span class="pull-right">Version 0.0.1</span>
+        </div>
+    </div>
+
+    <!-- 加载动画，移除位置在common.js中
+<div class="page-loading">
+    <div class="ball-loader">
+        <span></span><span></span><span></span><span></span>
+    </div>
+</div>-->
+
+    <!-- js部分 -->
+    <script>
+        layui.use(['index'], function () {
+            var $ = layui.jquery;
+            var index = layui.index;
+
+            // 默认加载主页
+            index.loadHome({
+                menuPath: 'login/welcome',
+                menuName: '<i class="layui-icon layui-icon-home"></i>',
+                loadSetting: false,
+            });
+
+        });
+    </script>
+</body>
+
+</html>

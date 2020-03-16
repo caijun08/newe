@@ -1,0 +1,4 @@
+    flask-sqlacodegen mysql://root:caijun028@cd.com@192.168.3.111/autobuy_get --tables loginfo --outfile "E:\重要文件\June\python\其他项目\自动投注\AutoBuy - 重构\AutoBuy - 修改泰兴获取方式 - 增加平台\common\models\Project\loginfo" --flask
+
+        def to_dict(self):
+        return {c.name: getattr(self, c.name, None)for c in self.__table__.columns}

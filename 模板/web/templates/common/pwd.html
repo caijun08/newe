@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'common/source.html' %}
+</head>
+<body>
+
+<div class="layui-fluid">
+    <!-- 左树 -->
+
+    <!-- 右表 -->
+    <div style="display: none" id="flag">
+    0
+    </div>
+    <form class="layui-form model-form" id="form-psw">
+        <div class="layui-form-item">
+            <label class="layui-form-label">原始密码:</label>
+            <div class="layui-input-block">
+                <input type="password" name="oldPsw" placeholder="请输入原始密码" class="layui-input"
+                       lay-verType="tips" lay-verify="required|ret" required/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">新密码:</label>
+            <div class="layui-input-block">
+                <input type="password" name="newPsw" placeholder="请输入新密码" class="layui-input"
+                       lay-verType="tips" lay-verify="required|psw" required/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">确认密码:</label>
+            <div class="layui-input-block">
+                <input type="password" name="rePsw" placeholder="请再次输入新密码" class="layui-input"
+                       lay-verType="tips" lay-verify="required|repsw" required/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block text-right">
+                <button class="layui-btn layui-btn-primary" type="button" ew-event="closeDialog">取消</button>
+                <button class="layui-btn" lay-filter="submit-psw" lay-submit>保存</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+<!-- 表格状态列 -->
+
+<script>
+    layui.use(['layer', 'form', 'admin'], function () {
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var form = layui.form;
+        var admin = layui.admin;
+
+        admin.iframeAuto();  // 让当前iframe弹层高度适应
+        // 监听提交
+        form.on('submit(submit-psw)', function (data) {
+            var flag = $('#flag').text();
+            $('#flag').html('1');
+            if (flag === '1') {
+                layer.msg('数据正在提交，请稍后再试');
+                return
+            }
+            data.field['opt'] = 'add';
+            _post('pwd', data.field, 'flag', function (res) {
+                if (res['code'] === 200) {
+                    layer.msg(res['msg'])
+                } else {
+                    layer.msg(res['msg'])
+                }
+            });
+            return false
+        });
+
+
+        // 添加表单验证方法
+        form.verify({
+            psw: [/^[\S]{5,12}$/, '密码必须5到12位，且不能出现空格'],
+            repsw: function (t) {
+                if (t !== $('#form-psw input[name=newPsw]').val()) {
+                    return '两次密码输入不一致';
+                }
+            },
+            ret:function (t) {
+                if (t === $('#form-psw input[name=newPsw]').val()) {
+                    return '旧密码不能与新密码一致';
+                }
+            }
+        });
+
+    });
+</script>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'common/source.html' %}
+</head>
+<style>
+
+</style>
+<body>
+<div class="layui-row layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <div style="text-align: center;line-height:30px" class="layui-field-title">
+                <h1>{{ temp_ls[0] }}</h1>
+            </div>
+
+            <fieldset class="layui-elem-field layui-field-title site-title">
+                <legend><a name="grid">基本信息</a></legend>
+            </fieldset>
+            <div class="layui-row">
+                <label class="layui-form-label" style="white-space: normal">类别</label>
+                <div class="layui-input-block">
+                    <div class="layui-form-mid layui-word-aux">
+                        {{ temp_ls[1] }}
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <label class="layui-form-label" style="white-space: normal">产品类型</label>
+                <div class="layui-input-block">
+                    <div class="layui-form-mid layui-word-aux">
+                        {{ temp_ls[2] }}
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <label class="layui-form-label" style="white-space: normal">采购数量</label>
+                <div class="layui-input-block">
+                    <div class="layui-form-mid layui-word-aux">
+                        {{ temp_ls[3] }}{{ temp_ls[4] }}
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <label class="layui-form-label" style="white-space: normal">总预算金额</label>
+                <div class="layui-input-block">
+                    <div class="layui-form-mid layui-word-aux">
+                        {{ temp_ls[5] }}{{ temp_ls[6] }}
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <label class="layui-form-label" style="white-space: normal">联系人</label>
+                <div class="layui-input-block">
+                    <div class="layui-form-mid layui-word-aux">
+                        {{ temp_ls[7] }}
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <label class="layui-form-label" style="white-space: normal">联系电话</label>
+                <div class="layui-input-block">
+                    <div class="layui-form-mid layui-word-aux">
+                        {{ temp_ls[8] }}
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <label class="layui-form-label" style="white-space: normal">采购单位</label>
+                <div class="layui-input-block">
+                    <div class="layui-form-mid layui-word-aux">
+                        {{ temp_ls[9] }}
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <label class="layui-form-label" style="white-space: normal">送货地点</label>
+                <div class="layui-input-block">
+                    <div class="layui-form-mid layui-word-aux">
+                        {{ temp_ls[10] }}
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <label class="layui-form-label" style="white-space: normal">交易状态</label>
+                <div class="layui-input-block">
+                    <div class="layui-form-mid layui-word-aux">
+                        {{ temp_ls[11] }}
+                    </div>
+                </div>
+            </div>
+            <fieldset class="layui-elem-field layui-field-title site-title">
+                <legend><a name="grid">采购产品内容</a></legend>
+            </fieldset>
+            <div class="layui-row">
+                <label class="layui-form-label" style="white-space: normal">详细参数</label>
+                <div class="layui-input-block">
+                    <div class="layui-form-mid layui-word-aux">
+                        {{ temp_ls[12] }}
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <label class="layui-form-label" style="white-space: normal">售后服务</label>
+                <div class="layui-input-block">
+                    <div class="layui-form-mid layui-word-aux">
+                        {{ temp_ls[13] }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    layui.use(['layer', 'carousel', 'table'], function () {
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var carousel = layui.carousel;
+        var table = layui.table;
+        var device = layui.device();
+
+
+    });
+</script>
+
+</html>

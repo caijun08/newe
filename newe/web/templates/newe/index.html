@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'common/source.html' %}
+</head>
+<style>
+    .c1-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        font-size: 11px;
+        color: grey;
+        min-height: 24px;
+    }
+
+    .c2-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        font-size: 11px;
+        color: grey;
+        min-height: 72px;
+    }
+
+    .c3-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+    }
+
+    .image-header {
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-top: 100%
+
+    }
+
+    .image-header img {
+
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+    }
+
+</style>
+<body>
+<div class="layui-row">
+    <div class="col-sm-12">
+        <img src="{{ buildStaticUrl('/imgs/index.png') }}" alt="" style="width: 100%">
+    </div>
+    <div class="layui-tab layui-tab-brief" lay-filter="maintab" style="width: 100%;overflow-x: scroll">
+        <ul class="layui-tab-title">
+            <li class="layui-this">疫情防控</li>
+            <li>采购需求</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show" style="text-align: center">
+                <div class="layui-tab layui-tab-card" lay-filter="yqtab">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this" tabname="fyjs">防疫技术</li>
+                        <li tabname="fycp">防疫产品</li>
+                        <li tabname="fyfw">防疫服务</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">
+                            <div class="layui-row">
+                                <div class="layui-row layui-col-space3" id="fyjs">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-tab-item">
+                            <div class="layui-row layui-col-space3" id="fycp">
+
+                            </div>
+                        </div>
+                        <div class="layui-tab-item">
+                            <div class="layui-row layui-col-space3" id="fyfw">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-tab-item">
+                <div class="layui-tab layui-tab-card" lay-filter="cgtab">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this" tabname="cgxqjyz">交易中</li>
+                        <li tabname="cgxqjyjs">交易结束</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">
+                            <div class="layui-row">
+                                <div class="layui-row layui-col-space3" id="cgxqjyz">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-tab-item">
+                            <div class="layui-row layui-col-space3" id="cgxqjyjs">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-row layui-col-space3" id="cgxq">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    var cur = '';
+    layui.use(['layer', 'element', 'flow'], function () {
+        var $ = layui.jquery;
+        var element = layui.element;
+
+        //一些事件监听
+        element.on('tab(maintab)', function (data) {
+            if (data.elem.find('.cgxq').length === 0) {
+                cur = 'cgxqjyz';
+                get_data('cgxqjyz', 0, 1);
+
+            }
+
+        });
+
+        element.on('tab(yqtab)', function (data) {
+            var tabname = $(this).attr('tabname');
+            if (data.elem.find('.' + tabname).length === 0) {
+                cur = tabname;
+                get_data(tabname, 1)
+            }
+        });
+
+        element.on('tab(cgtab)', function (data) {
+            var tabname = $(this).attr('tabname');
+            var status;
+            if (data.elem.find('.' + tabname).length === 0) {
+                if (tabname === 'cgxqjyz') {
+                    status = 1
+                } else {
+                    status = 2
+                }
+                cur = tabname;
+                get_data(tabname, 0, status)
+            }
+        });
+
+        function get_data(_id, num, status = null) {
+
+            var flow = layui.flow;
+            var flag;
+            var flagname;
+            var detail;
+            flow.load({
+                elem: '#' + _id //指定列表容器
+                , done: function (page, next) { //到达临界点（默认滚动触发），触发下一页
+                    var tab = $('li[tabname=' + _id + ']');
+
+                    if (!tab.hasClass('layui-this') || cur!==_id) {
+                        return
+                    }
+
+                    var lis = [];
+                    //以jQuery的Ajax请求为例，请求下一页数据（注意：page是从2开始返回
+                    var urldic = {
+                        '0': '/newe/flow1?typ=' + _id + '&status=' + status + '&page=',
+                        '1': '/newe/flow2?typ=' + _id + '&page='
+                    };
+                    if (status === 2) {
+                        flag = 'layui-bg-gray';
+                        flagname = '交易结束';
+                        detail = 'detail3'
+                    } else {
+                        flag = 'layui-bg-green';
+                        flagname = '交易中';
+                        detail = 'detail2'
+                    }
+
+                    $.get(urldic[num] + page, function (res) {
+
+                        layui.each(res.data, function (index, item) {
+                            var strdic = {
+                                '0': '<div class="layui-col-sm6 cgxq">\n<a  target="_blank" href="../newe/' + detail + '?' + item.link + '">' +
+                                '                            <div class="layui-card" style="border-radius:10px">\n' +
+                                '                                <div class="layui-card-body">\n' +
+                                '\n' +
+                                '                                    <div style="font-size: 15px;" class="c3-title">\n' +
+                                '                                        <span class="layui-badge ' + flag + '">' + flagname + '</span> <b>' + item.title + '</b> ' +
+                                '                                    </div>\n' +
+                                '                                    <div style="font-size: 13px;color: green" class="c3-title">\n' + item.dept + '</div>\n' +
+                                '                                    <div style="font-size: 13px;">要求：</div>\n' +
+                                '                                    <div class="c2-title" title="' + item.status + '">' + item.status + '</div>\n' +
+                                '                                </div>\n' +
+                                '                            </div>\n' +
+                                '                        </a></div>',
+                                '1': ' <div class="layui-col-xs6 layui-col-sm3 layui-col-md2 layui-col-lg2' + item.title + '">\n' +
+                                '                                        <div class="layui-card" style="border-radius:10px">\n' +
+                                '                                            <div class="layui-card-body" style="text-align: center">\n' +
+                                '<a  target="_blank" href="../newe/detail1?' + item.link + '" >' +
+                                '<div class="image-header">' +
+                                '<img src="' + item.img + '" alt="" style="width: 100%;height: 100%;"></div>\n' +
+                                '</a> ' +
+                                '                                            </div>\n' +
+                                '                                            <div class="layui-card-body">\n' +
+                                '                                                <div class="c1-title" title="' + item.title + '">\n' +
+                                '<a target="_blank" href="../newe/detail1?' + item.link + '"><b>' + item.title + '</b></a>' +
+                                '</div>\n' +
+                                '                                                <div style="font-size: 11px;color: red">\n' + item.catalog + '</div>\n' +
+                                '                                                <div style="font-size: 11px;color: green" class="c1-title">\n' + item.company + '</div>\n' +
+                                '                                            </div>\n' +
+                                '                                        </div>\n' +
+                                '                                    </div>'
+                            };
+                            lis.push(strdic[num]);
+                        });
+
+                        //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
+                        //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
+                        next(lis.join(''), page < res.pages);
+                    });
+                }
+            });
+        }
+        cur = 'fyjs'
+        get_data('fyjs', 1);
+
+    });
+</script>
+
+</html>
