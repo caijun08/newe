@@ -1,5 +1,7 @@
 import time
 from application import app
+
+
 class UrlManager():
 
     @staticmethod
@@ -11,4 +13,5 @@ class UrlManager():
 
     @staticmethod
     def buildUrl(path):
-        return path
+        prepath = app.config['LOCATION'] if 'LOCATION' in app.config else ''
+        return '%s%s' % (prepath, path)

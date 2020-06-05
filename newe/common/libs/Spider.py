@@ -123,7 +123,7 @@ class Spider(object):
 
     def get_detail(self, typ, _id):
         typ = typ[0:4]
-        url = 'http://172.25.32.205:70/product.aspx?id=' + _id if typ != 'cgxq' else 'http://172.25.32.205:70/project.aspx?id=' + _id
+        url = 'https://www.cdggzy.com/nep/product.aspx?id=' + _id if typ != 'cgxq' else 'http://172.25.32.205:70/project.aspx?id=' + _id # 172.25.32.205:70
         try:
             self.rep = self.session.get(url, headers=self.headers, timeout=(3, 7))
             self.text = self.rep.text
@@ -153,13 +153,13 @@ class Spider(object):
     @staticmethod
     def get_url(typ, page=1, status=1):
         url = {
-            'fyjs': 'http://172.25.32.205:70/productlist.aspx?catalog=747fb793-7547-455d-b238-2c8a612e7d07&page=' + str(
+            'fyjs': 'https://www.cdggzy.com/nep/productlist.aspx?catalog=747fb793-7547-455d-b238-2c8a612e7d07&page=' + str(
                 page),
-            'fycp': 'http://172.25.32.205:70/productlist.aspx?catalog=bb25468c-962e-488c-9870-117b245a62d4&page=' + str(
+            'fycp': 'https://www.cdggzy.com/nep/productlist.aspx?catalog=bb25468c-962e-488c-9870-117b245a62d4&page=' + str(
                 page),
-            'fyfw': 'http://172.25.32.205:70/productlist.aspx?catalog=f73b0905-fc01-4089-9e4a-2d3ae8109ced&page=' + str(
+            'fyfw': 'https://www.cdggzy.com/nep/productlist.aspx?catalog=f73b0905-fc01-4089-9e4a-2d3ae8109ced&page=' + str(
                 page),
-            'cgxq': 'http://172.25.32.205:70/projectlist.aspx?status=' + str(status) + '&page=' + str(page)
+            'cgxq': 'https://www.cdggzy.com/nep/projectlist.aspx?status=' + str(status) + '&page=' + str(page)
         }
         return url[typ]
 
